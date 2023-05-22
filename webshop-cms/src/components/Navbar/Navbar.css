@@ -1,0 +1,26 @@
+.navbar{
+    background-color: rgb(52, 115, 167);
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.nav-title{
+    text-decoration: none;
+
+}
+
+.nav-list{
+   display: flex;
+   list-style: none;
+}
+
+.nav-link{
+    margin: 1rem;
+    text-decoration: none;
+}
+
+.title, .nav-link{
+    color: #fff;
+}
