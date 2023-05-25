@@ -1,19 +1,27 @@
 const Order = require('../schemas/orderSchema')
 const Status = require('../schemas/statusSchema')
-// GET ALL ORDERS
-exports.getOrders = async (req, res) => {
-    try {
-      const order = await Order.find({ user: req.userData._id })
-      .populate({ path: 'orderRows.product', model: 'Product' })
-      .populate('status', 'status -_id')        //populates only status inside of status
-      .exec();
-      res.status(200).json(order)
+const { adminId } = require('../authentication/admin');
 
+  //GET ALL ORDERS NEW
+  exports.getOrders = async (req, res) => {
+    try {
+      let query = {};  //defines query as empty object
+      
+      if (req.userData._id !== adminId) {    //if the users Id isn't equal adminId
+        query.user = req.userData._id;       //updates query object to include the userId filter
+      }
+  
+      const order = await Order.find(query)
+        .populate({ path: 'orderRows.product', model: 'Product' })
+        .populate('status', 'status -_id')    //populates only status inside of status
+        .exec();
+  
+      res.status(200).json(order);
     } catch (err) {
       res.status(500).json({
         message: 'Something went wrong when fetching the orders',
         err: err.message
-      })
+      });
     }
   }
   // CREATE NEW ORDER
