@@ -1,32 +1,47 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: "",
+  const [loginData, setLoginData] = useState({
+    userName: "",
     password: "",
   });
 
-  const handleChange = e => {
-    const { id, value } = e.target
-    setFormData(data => ({ ...data, [id]: value }))
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
+  const handleChange = (e) => {
+    setLoginData((prevData) => {
+      return {
+        ...prevData,
+        [e.target.name]: e.target.value,
+      };
+    });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await fetch("http://localhost:7777/api/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginData),
+    });
+    const data = await res.json();
+    console.log(data);
+  };
+
 
   return (
     <div className="login-wrapper">
       <form className="form-group" onSubmit={handleSubmit}>
         <h1>Login</h1>
         <div>
-          <label htmlFor="email" className="form-label">Email</label>
+          <label htmlFor="userName" className="form-label">Username</label>
           <input
-            type="email"
-            id="email"
+            type="text"
+            id="userName"
+            name="userName"
             className="form-control"
-            value={formData.email}
+            value={loginData.userName}
             onChange={handleChange}
           />
         </div>
@@ -35,12 +50,13 @@ const Login = () => {
           <input
             type="password"
             id="password"
+            name="password"
             className="form-control"
-            value={formData.password}
+            value={loginData.password}
             onChange={handleChange}
           />
         </div>
-        <button className="btn">Login</button>
+        <button className="form-btn">Login</button>
       </form>
     </div>
   );

@@ -27,6 +27,7 @@ const data = {
     price: +productData.price
 }
 
+console.log(productData)
 
 }
 
@@ -50,7 +51,7 @@ const data = {
           <label htmlFor="description" className="form-label">Description of the product</label>
           <textarea type="number" id="description" className="form-control" value={productData.description} onChange={handleChange}></textarea>
         </div>
-        <button className="btn">Add Product</button>
+        <button className="form-btn">Add Product</button>
       </form>
     </div>
   );
