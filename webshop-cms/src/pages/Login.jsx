@@ -1,11 +1,15 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useState, useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
+  const { updateToken } = useContext(AuthContext);
   const [loginData, setLoginData] = useState({
     userName: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setLoginData((prevData) => {
@@ -18,7 +22,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:7777/api/users/login", {
+    const res = await fetch("http://localhost:7777/api/users/admin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +30,8 @@ const Login = () => {
       body: JSON.stringify(loginData),
     });
     const data = await res.json();
-    console.log(data);
+    updateToken(data.token);
+        navigate("/");
   };
 
 
