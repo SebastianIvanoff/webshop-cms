@@ -2,13 +2,16 @@ import { createContext, useState } from "react";
 
 const AuthContext = createContext();
 
-// eslint-disable-next-line react/prop-types
+
 const AuthProvider = ({ children }) => {
-    //gets token from localstorage and stores it in localStorageObject
+    
+  // Get the token from localStorage, if it exists
     const localStorageObject = localStorage.getItem("token");
-    //checks if token is not an "undefined" string (it happens if you log in with incorrect user or password)
+    
+    // Parse the token from a string to an object
     const initialToken = localStorageObject != "undefined" ? JSON.parse(localStorageObject) : null;
-    //define state and set funcion & make sure token exists and isn't null
+   
+     // Initialize the token state with the initial token value
     const [token, setToken] = useState(initialToken?.token || null);
   
     const updateToken = (newToken) => {

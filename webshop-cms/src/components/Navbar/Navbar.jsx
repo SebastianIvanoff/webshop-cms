@@ -3,7 +3,7 @@ import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 const Navbar = () => {
-  const { updateToken } = useContext(AuthContext);
+  const { updateToken, token } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -12,6 +12,8 @@ const Navbar = () => {
     updateToken(null);
     navigate("/login");
   };
+
+  console.log(token)
 
   const isLoginPage = location.pathname === "/login";
 

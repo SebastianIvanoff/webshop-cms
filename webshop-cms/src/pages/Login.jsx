@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import axios from 'axios';
 
 const Login = () => {
   const { updateToken } = useContext(AuthContext);
@@ -22,18 +23,21 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:7777/api/users/admin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(loginData),
-    });
-    const data = await res.json();
-    updateToken(data.token);
-        navigate("/");
+    try {
+      //Send a POST request to login with admin privileges
+      const res = await axios.post("http://localhost:7777/api/users/admin", loginData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = res.data;
+      updateToken(data.token);
+      // Navigate to the home page 
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
   };
-
 
   return (
     <div className="login-wrapper">

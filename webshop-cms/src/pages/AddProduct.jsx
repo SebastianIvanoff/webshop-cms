@@ -1,6 +1,7 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const AddProduct = () => {
   const { token } = useContext(AuthContext);
@@ -24,27 +25,37 @@ const AddProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    const res = await fetch("http://localhost:7777/api/products/", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json", // Set the content type
-      },
-      body: JSON.stringify(productData),
-    });
-  
-    if (res.status === 201) {
-      const data = await res.json();
-      console.log(data);
-      navigate("/");
-    } else {
-      // Handle error if the creation was not successful
-      const errorData = await res.json();
-      console.log(errorData);
+
+    try {
+      const res = await axios.post(
+        "http://localhost:7777/api/products/",
+        productData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (res.status === 201) {
+        const data = res.data;
+        console.log(data);
+        navigate("/");
+      } else {
+        const errorData = res.data;
+        console.log(errorData);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
-  
+
+  useEffect(() => {
+    if (token == null) {
+      navigate("/login");
+    }
+  });
 
   return (
     <div className="product-form">
