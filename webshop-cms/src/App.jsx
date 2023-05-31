@@ -6,6 +6,8 @@ import AddProduct from "./pages/AddProduct";
 import Login from "./pages/Login";
 import ProductDetails from "./pages/ProductDetails";
 import { AuthProvider } from "./context/AuthContext";
+import Orders from "./pages/Orders";
+import OrderDetails from "./pages/OrderDetails";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -28,6 +30,14 @@ const App = () => {
         {
           path: "login",
           element: <Login />,
+        },
+        {
+          path: "orders",
+          element: <Orders />,
+        },
+        {
+          path: "orders/:id",
+          element: <OrderDetails />,
         },
       ],
     },

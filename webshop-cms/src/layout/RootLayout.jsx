@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar/Navbar'
 const RootLayout = () => {
   return (
     <>
-      <Navbar />
+      <Navbar title="Fruits-CMS"/>
       <div className="container">
         <Outlet />
       </div>

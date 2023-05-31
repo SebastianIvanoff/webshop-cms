@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
-import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
+import { useContext } from "react";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
-const Navbar = () => {
+const Navbar = ({ title }) => {
   const { updateToken, token } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -13,19 +13,24 @@ const Navbar = () => {
     navigate("/login");
   };
 
-  console.log(token)
+  console.log(token);
 
   const isLoginPage = location.pathname === "/login";
 
   return (
     <nav className="navbar">
-      <h1 className="title">Fruits-CMS</h1>
+      <h1 className="title">{title}</h1>
 
       {!isLoginPage && (
         <ul className="nav-list">
           <li>
             <NavLink className="nav-link" to="/">
               Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink className="nav-link" to="orders">
+              Orders
             </NavLink>
           </li>
           <li>
