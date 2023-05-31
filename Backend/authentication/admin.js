@@ -1,1 +1,0 @@
-exports.adminId = '646f750429f05ffd22b2b08b';
