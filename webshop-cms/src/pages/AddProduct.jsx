@@ -25,7 +25,7 @@ const AddProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+// Sending a POST request to the  API endpoint with the 'productData'
     try {
       const res = await axios.post(
         "http://localhost:7777/api/products/",
@@ -51,6 +51,7 @@ const AddProduct = () => {
     }
   };
 
+  //If there is no token the redirect to the login page
   useEffect(() => {
     if (token == null) {
       navigate("/login");

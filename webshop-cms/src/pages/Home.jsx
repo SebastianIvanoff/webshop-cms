@@ -18,6 +18,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Sending a GET request to the  API endpoint to fetch products
         const res = await axios.get("http://localhost:7777/api/products/");
         const data = res.data;
         setProducts(data);

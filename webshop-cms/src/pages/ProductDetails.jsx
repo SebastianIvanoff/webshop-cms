@@ -12,11 +12,13 @@ const ProductDetails = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    //If there is no token the redirect to the login page
     if (token == null) {
       navigate("/login");
     }
   });
 
+  // This useEffect hook is used to fetch data when the 'id' dependency changes.
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,6 +35,7 @@ const ProductDetails = () => {
 
   const deleteBtn = async () => {
     try {
+      // Sending a DELETE request to the API endpoint with the given 'id'
       const res = await axios.delete(`http://localhost:7777/api/products/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -58,6 +61,7 @@ const ProductDetails = () => {
 
   const updateBtn = async () => {
     try {
+      // Sending a PUT request to the specified API endpoint with the given 'id'
       const res = await axios.put(`http://localhost:7777/api/products/${id}`, { price: updatedPrice }, {
         headers: {
           Authorization: `Bearer ${token}`,

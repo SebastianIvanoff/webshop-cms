@@ -9,9 +9,10 @@ const OrderDetails = () => {
   const { id } = useParams();
   const [order, setOrder] = useState({});
   const [status, setStatus] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  
 
   useEffect(() => {
+    //If there is no token the redirect to the login page
     if (token == null) {
       navigate("/login");
     }
@@ -32,20 +33,6 @@ const OrderDetails = () => {
     fetchData();
   }, [id, token]);
 
-  const fetchOrder = async () => {
-    try {
-      const res = await axios.get(`http://localhost:7777/api/orders/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = res.data;
-      setOrder(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleStatusChange = async () => {
     try {
       const response = await axios.put(
@@ -64,8 +51,6 @@ const OrderDetails = () => {
         if (data) {
           fetchOrder();
         }
-      } else {
-        console.log("Error updating order status");
       }
     } catch (error) {
       console.log("Error updating order status", error);

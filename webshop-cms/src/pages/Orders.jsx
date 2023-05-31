@@ -9,10 +9,12 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
+    //If there is no token the redirect to the login page
     if (token == null) {
       navigate("/login");
     }
     const fetchdata = async () => {
+      // Sending a GET request to the API endpoint to fetch orders
       try {
         const res = await axios.get("http://localhost:7777/api/orders/", {
           headers: {
