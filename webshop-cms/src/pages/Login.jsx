@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import axios from 'axios';
+import axios from "axios";
 
 const Login = () => {
   const { updateToken } = useContext(AuthContext);
@@ -23,20 +23,26 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      //Send a POST request to login with admin privileges
-      const res = await axios.post("http://localhost:7777/api/users/admin", loginData, {
+
+    // Send a POST request to the specified URL with loginData as the request body
+    const res = await axios.post(
+      "http://localhost:7777/api/users/login",
+      loginData,
+      {
         headers: {
           "Content-Type": "application/json",
         },
-      });
-      const data = res.data;
+      }
+    );
+    const data = res.data;
+    // If a token is present in the response data, update the token
+    if (data.token) {
       updateToken(data.token);
-      // Navigate to the home page 
-      navigate("/");
-    } catch (error) {
-      console.error(error);
+    } else {
+      // If no token is present, set the token to null
+      updateToken(null);
     }
+    navigate("/");
   };
 
   return (
@@ -44,7 +50,9 @@ const Login = () => {
       <form className="form-group" onSubmit={handleSubmit}>
         <h1>Login</h1>
         <div>
-          <label htmlFor="userName" className="form-label">Username</label>
+          <label htmlFor="userName" className="form-label">
+            Username
+          </label>
           <input
             type="text"
             id="userName"
@@ -55,7 +63,9 @@ const Login = () => {
           />
         </div>
         <div>
-          <label htmlFor="password" className="form-label">Password</label>
+          <label htmlFor="password" className="form-label">
+            Password
+          </label>
           <input
             type="password"
             id="password"
